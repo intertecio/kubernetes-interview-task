@@ -1,0 +1,12 @@
+Environment: blue
+Namespace: app
+replicaCount: 1
+Image:
+  Repository: 402022866377.dkr.ecr.eu-central-1.amazonaws.com/node-demo-app
+  Tag: "blue"
+  PullPolicy: IfNotPresent
+
+Service:
+  Type: ClusterIP
+  Port: 3000
+

@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "app-{{ .Values.Environment }}"
+  namespace: "{{ .Values.Namespace }}"
+  labels:
+    app: "{{ .Values.Environment }}"
+spec:
+  replicas: {{ .Values.ReplicaCount }}
+  selector:
+    matchLabels:
+      app: "{{ .Values.Environment }}"
+  template:
+    metadata:
+      labels:
+        app: "{{ .Values.Environment }}"
+    spec:
+      containers:
+        - name: app
+          image: "{{ .Values.Image.Repository }}:{{ .Values.Image.Tag }}"
+          imagePullPolicy: {{ .Values.Image.PullPolicy }}
+          ports:
+            - containerPort: {{ .Values.Service.Port }}

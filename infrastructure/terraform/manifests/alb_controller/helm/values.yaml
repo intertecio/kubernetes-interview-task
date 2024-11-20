@@ -1,0 +1,10 @@
+---
+vpcId: ${VPC_ID}
+clusterName: ${EKS_CLUSTER_NAME}
+rbac:
+  create: false
+serviceAccount:
+  create: false
+  name: ${SERVICE_ACCOUNT_NAME}
+image:
+  tag: "${IMAGE_TAG}"
