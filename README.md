@@ -149,3 +149,5 @@ terraform apply -var="execute_general_kubernetes_manifests=true" -var="execute_a
 - Automating of the blue-green switch while leveraging Github Actions, and a "Manual-approve job" to do the switch.
 
 - The current environment is being setup with Terraform in 2 steps. In order to lower this to 1 run command, some dependecy tweaking needs to happen (around the Terraform resources).
+
+- Currently to visualize a blue-green deployment, application are deployed in the same namespace but have different services. This is done to leverage the same `ALB ingress` which will switch between the services. A proper setup would involve spliting the application into separate namespaces, even clusters for bigger isolation. This will involve routing to be managed by Route53, but for that a domain is needed :).
