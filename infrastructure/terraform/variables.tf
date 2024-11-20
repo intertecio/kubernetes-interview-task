@@ -1,4 +1,9 @@
-variable "execute_kubernetes_manifests" {
+variable "execute_general_kubernetes_manifests" {
+  type    = bool
+  default = false
+}
+
+variable "execute_argocd_kubernetes_manifests" {
   type    = bool
   default = false
 }

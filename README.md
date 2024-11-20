@@ -117,7 +117,8 @@ In order to deploy the applications on the Cluster, my choice was to deploy Argo
 To fetch the admin password of the ArgoCD I used the command:
 
 ```bash
-kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
+kubectl -n argocd get secret argocd-initial-admin-secret \
+          -o jsonpath="{.data.password}" | base64 -d; echo
 ```
 
 ### Step 5
@@ -132,8 +133,19 @@ With both versions of the applications deployed on our EKS cluster, I created a 
 
 Even though the blue-green deployment was not automated. We could simulate one with changing the parameter `spec.rules.http.paths.backend.service.name` in the file `infrastructure/terraform/manifests/app_ingress.yaml`
 
+## Execution steps
+
+The resource creation in Terraform happens in 2 steps due to dependency between kubernetes manifests and cloud resources.
+
+```bash
+terraform apply
+terraform apply -var="execute_general_kubernetes_manifests=true" -var="execute_argocd_kubernetes_manifests=true" -var="execute_helm_releases=true"
+```
+
 ## Possible Improvements
 
 - ECR could be leveraged for Helm Chart storage. In this demo, the ECR is used only for storing the Docker images.
 
 - Automating of the blue-green switch while leveraging Github Actions, and a "Manual-approve job" to do the switch.
+
+- The current environment is being setup with Terraform in 2 steps. In order to lower this to 1 run command, some dependecy tweaking needs to happen (around the Terraform resources).
